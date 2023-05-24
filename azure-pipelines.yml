@@ -15,7 +15,7 @@ jobs:
 
   - task: AzurePowerShell@5
     inputs:
-     azurePowerShellVersion:LatestVersion
+      azurePowerShellVersion: LatestVersion
       azureSubscription: 'Azure Pass - Sponsorship(9bb6b339-af73-420d-aa48-ffb2c0f72159)'
       ScriptType: 'InlineScript'
       Inline: |
