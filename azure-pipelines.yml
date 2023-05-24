@@ -24,12 +24,12 @@ jobs:
         $iterator = $array.count 
         
         $Name = $array[$iterator -1].StorageAccountName
-        
+        "##vso[task.setvariable variable=testvar;]$Name"
   - task: PowerShell@2
     inputs:
       targetType: 'inline'
       script: |
-        $Number = ($name[$Name.Length -1])
+        $Number = ($testvar[$testvar.Length -1])
                 $NumberString = $Number.ToString()
                 
                 [int]$intNum = [convert]::ToInt32($NumberString ,10)
@@ -37,8 +37,8 @@ jobs:
                 $intNum++
                 $intNum
                 
-                $Name = $Name.Substring(0,$Name.Length -1) + $intNum
-                $Name
+                $testvar = $testvar.Substring(0,$testvar.Length -1) + $intNum
+                $testvar
 
   - task: AzureResourceManagerTemplateDeployment@3
     inputs:
