@@ -25,17 +25,21 @@ jobs:
         
         $Name = $array[$iterator -1].StorageAccountName
         
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
         $Number = ($name[$Name.Length -1])
-        $NumberString = $Number.ToString()
-        
-        [int]$intNum = [convert]::ToInt32($NumberString ,10)
-        
-        $intNum++
-        $intNum
-        
-        $Name = $Name.Substring(0,$Name.Length -1) + $intNum
-        $Name
-    
+                $NumberString = $Number.ToString()
+                
+                [int]$intNum = [convert]::ToInt32($NumberString ,10)
+                
+                $intNum++
+                $intNum
+                
+                $Name = $Name.Substring(0,$Name.Length -1) + $intNum
+                $Name
+
   - task: AzureResourceManagerTemplateDeployment@3
     inputs:
       deploymentScope: 'Resource Group'
