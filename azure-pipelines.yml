@@ -13,6 +13,28 @@ jobs:
 - job: 
   steps:
 
+  - task: AzurePowerShell@5
+    inputs:
+      azureSubscription: 'Azure Pass - Sponsorship(9bb6b339-af73-420d-aa48-ffb2c0f72159)'
+      ScriptType: 'InlineScript'
+      Inline: |
+        $array = Get-AzStorageAccount | Sort-Object -Property creationtime
+        
+        $iterator = $array.count 
+        
+        $Name = $array[$iterator -1].StorageAccountName
+        
+        $Number = ($name[$Name.Length -1])
+        $NumberString = $Number.ToString()
+        
+        [int]$intNum = [convert]::ToInt32($NumberString ,10)
+        
+        $intNum++
+        $intNum
+        
+        $Name = $Name.Substring(0,$Name.Length -1) + $intNum
+        $Name
+    
   - task: AzureResourceManagerTemplateDeployment@3
     inputs:
       deploymentScope: 'Resource Group'
@@ -22,6 +44,8 @@ jobs:
       resourceGroupName: 'demobicep'
       location: 'West US 3'
       templateLocation: 'Linked artifact'
+      overrideParameters: -storageName $Name
       csmFile: 'storage.bicep'
       csmParametersFile: 'storage.parameters.json'
       deploymentMode: 'Incremental'
+
